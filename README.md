@@ -1,2 +1,2 @@
 # Paster_Desktop
-This is the java desktop for Paster app
+This is the java desktop app for Paster app
