@@ -12,7 +12,11 @@ import java.net.Socket;
 
 
 
-//TODO: Add monitors
+/*
+ * This class create a new client which is a seperate thread,
+ * different from the ui thread.
+ * If you have better ways to do this stuff, do it and send a pull request
+ */
 public class Client extends Thread{
 	BufferedReader bReader=null;
 	BufferedWriter bWriter = null; 
@@ -28,6 +32,7 @@ public class Client extends Thread{
 	@Override
 	public void run(){
 	   try {
+		   //Running a server on port 2800
 			serverSocket = new ServerSocket(2800);
 			System.out.println("Waiting For Client");
 			socket = serverSocket.accept();
@@ -35,6 +40,12 @@ public class Client extends Thread{
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			System.out.println("Socket Closed");
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return;
 		}
 		try {
@@ -45,10 +56,12 @@ public class Client extends Thread{
 			e2.printStackTrace();
 		}
 
+//		Below code sets up the system clipboard for us
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
 		oldString="";newString="";
 		try{
+//			Get the new string from the clip board
 			newString = (String) clipboard.getData(DataFlavor.stringFlavor);
 		}
 		catch(Exception e){
@@ -58,6 +71,8 @@ public class Client extends Thread{
 		Reciever r1 = new  Reciever(this);
 		r1.start();
 		while(running){
+//			Compares the content of the clip board after every half second
+//			.If content is different, send it to the mobile phone
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
@@ -90,6 +105,7 @@ public class Client extends Thread{
 		}
 	}
 	
+//	called by the receiver class, see below
 	public void  setString(String data){
 		synchronized (newString) {
 			newString=oldString=data;	
@@ -102,7 +118,8 @@ public class Client extends Thread{
 	
 	public void stopRunning(){
     	try {
-    		socket.close();
+    		if(socket!=null)
+    			socket.close();
     		serverSocket.close();
     		if(bReader!=null && bWriter!=null){
     			bReader.close();
@@ -116,6 +133,8 @@ public class Client extends Thread{
     	running=false;
 	}
 	
+//	Separate THread that receives the data from the android app and sets the 
+//	system clip board
 	class Reciever extends Thread{
 		Client client;
 		public Reciever(Client client) {

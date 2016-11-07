@@ -16,6 +16,7 @@ public class Main {
 	static Client client=null;
 
     public static void main(String[] args) {
+    	//Setting up Jframes and all the ui stuff 
     	JFrame frame = new JFrame("Paster");
     	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	JPanel panel = new JPanel();
@@ -28,8 +29,8 @@ public class Main {
         panel.setLayout(layout);  
         panel.add(label);
         panel.add(button);
+        //Setting up start/stop click Listeners
         button.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent arg0) {
 				if(start){
 					button.setText("Start");
@@ -44,12 +45,20 @@ public class Main {
 				
 			}
 		});
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+              if(client!=null)
+            	  client.stopRunning();
+            }
+        });
         frame.add(panel);
         frame.setSize(200, 100);
         frame.setVisible(true);
     	label.setText(getIp());
     }
     
+//   creates a new client object and starts it.  
    public static void startClient(){			   
 	   try {
 			client = new Client();
@@ -59,7 +68,7 @@ public class Main {
 			e.printStackTrace();
 		}
     }
-   
+//stops the client    
     public static void stopClient(){
     	client.stopRunning();
     }
