@@ -14,14 +14,13 @@ import javax.swing.JPanel;
 public class Main {
 	static boolean start= false;
 	static Client client=null;
-
+	static final JButton button = new JButton("Start");
     public static void main(String[] args) {
     	//Setting up Jframes and all the ui stuff 
     	JFrame frame = new JFrame("Paster");
     	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	JPanel panel = new JPanel();
     	JLabel label = new  JLabel("Your IP");
-    	final JButton button = new JButton("Start");
     	panel.setSize(200,200);
     	GridLayout layout = new GridLayout(2,1);
         layout.setHgap(10);              

@@ -107,6 +107,10 @@ public class Client extends Thread{
 	
 //	called by the receiver class, see below
 	public void  setString(String data){
+		if(data.equals("0821__bye")){
+			Main.button.doClick();
+			return;
+		}
 		synchronized (newString) {
 			newString=oldString=data;	
 			System.out.println("In set String "+ newString);
