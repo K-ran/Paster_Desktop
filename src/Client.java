@@ -34,12 +34,12 @@ public class Client extends Thread{
 	   try {
 		   //Running a server on port 2800
 			serverSocket = new ServerSocket(2800);
-			System.out.println("Waiting For Client");
+			//System.out.println("Waiting For Client");
 			socket = serverSocket.accept();
-			System.out.println("Connected to "+ socket.getInetAddress().toString());
+			//System.out.println("Connected to "+ socket.getInetAddress().toString());
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
-			System.out.println("Socket Closed");
+			//System.out.println("Socket Closed");
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
@@ -87,7 +87,7 @@ public class Client extends Thread{
 					
 				}
 				if(!oldString.equals(newString)){
-					System.out.println("boom: "+" "+newString);
+					//System.out.println("boom: "+" "+newString);
 					if(bWriter!=null){
 						try {
 							bWriter.write(newString+"\n");
@@ -113,7 +113,7 @@ public class Client extends Thread{
 		}
 		synchronized (newString) {
 			newString=oldString=data;	
-			System.out.println("In set String "+ newString);
+			//System.out.println("In set String "+ newString);
 			StringSelection stringSelection = new StringSelection(data);
 			Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clpbrd.setContents(stringSelection, null);
@@ -132,7 +132,7 @@ public class Client extends Thread{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			//			e.printStackTrace();
-			System.out.println("System Stopped");
+			//System.out.println("System Stopped");
 		}
     	running=false;
 	}
@@ -146,7 +146,7 @@ public class Client extends Thread{
 		}
 		@Override
 		public void run(){
-			System.out.println("Waiting for input fron client");
+			//System.out.println("Waiting for input fron client");
 			while(running){
 				try {
 					String data = bReader.readLine();
@@ -158,7 +158,7 @@ public class Client extends Thread{
 					e.printStackTrace();
 				}
 			}
-			System.out.println("Done");
+			//System.out.println("Done");
 		}
 	}
 }
